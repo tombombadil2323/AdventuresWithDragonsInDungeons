@@ -1,0 +1,10 @@
+/Users/tom/Projects/ADND/ADND.test/bin/Debug/ADND.test.dll
+/Users/tom/Projects/ADND/ADND.test/bin/Debug/ADND.test.pdb
+/Users/tom/Projects/ADND/ADND.test/bin/Debug/ADND.exe
+/Users/tom/Projects/ADND/ADND.test/bin/Debug/nunit.framework.dll
+/Users/tom/Projects/ADND/ADND.test/bin/Debug/ADND.pdb
+/Users/tom/Projects/ADND/ADND.test/bin/Debug/nunit.framework.xml
+/Users/tom/Projects/ADND/ADND.test/obj/Debug/ADND.test.csprojResolveAssemblyReference.cache
+/Users/tom/Projects/ADND/ADND.test/obj/Debug/ADND.test.csproj.CoreCompileInputs.cache
+/Users/tom/Projects/ADND/ADND.test/obj/Debug/ADND.test.dll
+/Users/tom/Projects/ADND/ADND.test/obj/Debug/ADND.test.pdb
