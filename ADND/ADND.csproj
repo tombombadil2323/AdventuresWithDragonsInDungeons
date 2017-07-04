@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{0E57DA2B-D243-4998-AE0C-5C272D5594E9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ADND</RootNamespace>
+    <AssemblyName>ADND</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CharacterTemplate.cs" />
+    <Compile Include="ICharacters.cs" />
+    <Compile Include="Fighter.cs" />
+    <Compile Include="CharacterGenerator.cs" />
+    <Compile Include="Bonus.cs" />
+    <Compile Include="IMessageChannel.cs" />
+    <Compile Include="MessageConsole.cs" />
+    <Compile Include="ICharacterGenerator.cs" />
+    <Compile Include="IWeapon.cs" />
+    <Compile Include="Sword.cs" />
+    <Compile Include="IArmor.cs" />
+    <Compile Include="ChainMail.cs" />
+    <Compile Include="IBonus.cs" />
+    <Compile Include="CharacterSheetParser.cs" />
+    <Compile Include="ICharacterSheetParser.cs" />
+    <Compile Include="WriteSheetConsole.cs" />
+    <Compile Include="IWriteSheet.cs" />
+    <Compile Include="CharacterBuilder.cs" />
+    <Compile Include="Wizard.cs" />
+    <Compile Include="ISpells.cs" />
+    <Compile Include="MagicMissile.cs" />
+    <Compile Include="Dagger.cs" />
+    <Compile Include="Robe.cs" />
+    <Compile Include="CharacterChoser.cs" />
+    <Compile Include="GameMaster.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="IStory.cs" />
+    <Compile Include="Story.cs" />
+    <Compile Include="MapNavigator.cs" />
+    <Compile Include="IMapNavigator.cs" />
+    <Compile Include="MapTile.cs" />
+    <Compile Include="IMapTile.cs" />
+    <Compile Include="IEncounterType.cs" />
+    <Compile Include="MapTileEncounter.cs" />
+    <Compile Include="CombatEncounter.cs" />
+    <Compile Include="Goblin.cs" />
+    <Compile Include="LeatherArmor.cs" />
+    <Compile Include="PlayerCharacters.cs" />
+    <Compile Include="MonsterCharacters.cs" />
+    <Compile Include="Orc.cs" />
+    <Compile Include="Giant.cs" />
+    <Compile Include="Dragon.cs" />
+    <Compile Include="IEncounter.cs" />
+    <Compile Include="GoNorth.cs" />
+    <Compile Include="IMapMovement.cs" />
+    <Compile Include="FirstTile.cs" />
+    <Compile Include="GoEast.cs" />
+    <Compile Include="GoSouth.cs" />
+    <Compile Include="GoWest.cs" />
+    <Compile Include="GoRecuperate.cs" />
+    <Compile Include="CharacterChecker.cs" />
+    <Compile Include="ICharacterChecker.cs" />
+    <Compile Include="MonsterGenerator.cs" />
+    <Compile Include="IMonsterGenerator.cs" />
+    <Compile Include="RandomSingleton.cs" />
+    <Compile Include="FighterOptions.cs" />
+    <Compile Include="WizardOptions.cs" />
+    <Compile Include="IMagicUsers.cs" />
+    <Compile Include="IAction.cs" />
+    <Compile Include="CombatAttackAction.cs" />
+    <Compile Include="CombatRunAction.cs" />
+    <Compile Include="CombatSpellCastingAction.cs" />
+    <Compile Include="Spider.cs" />
+    <Compile Include="BiteWeapon.cs" />
+    <Compile Include="HideArmor.cs" />
+    <Compile Include="MapMovement.cs" />
+    <Compile Include="GoUp.cs" />
+    <Compile Include="GoDown.cs" />
+    <Compile Include="OptionYesNo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

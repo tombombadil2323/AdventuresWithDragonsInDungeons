@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A20AD786-4C7C-400E-ABB1-46F2F55B2208}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ADND.test</RootNamespace>
+    <AssemblyName>ADND.test</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CharacterGeneratorTest.cs" />
+    <Compile Include="FighterTest.cs" />
+    <Compile Include="BonusTest.cs" />
+    <Compile Include="CharacterSheetParserTest.cs" />
+    <Compile Include="CharacterBuilderTest.cs" />
+    <Compile Include="WizardTest.cs" />
+    <Compile Include="MagicMissleTest.cs" />
+    <Compile Include="StoryTest.cs" />
+    <Compile Include="MapNavigatorTest.cs" />
+    <Compile Include="GoNorthTest.cs" />
+    <Compile Include="RandomSingletonTest.cs" />
+    <Compile Include="CombatEncounterTest.cs" />
+    <Compile Include="MockCharacter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ADND\ADND.csproj">
+      <Project>{0E57DA2B-D243-4998-AE0C-5C272D5594E9}</Project>
+      <Name>ADND</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
