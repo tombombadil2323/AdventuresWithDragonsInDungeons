@@ -11,7 +11,6 @@ namespace ADND
         private int partyGold;
         private int partyXp;
         private int roundCounter;
-        private int testrepo;
 
         private bool hasRunAway;
         private bool endOfCombat;
