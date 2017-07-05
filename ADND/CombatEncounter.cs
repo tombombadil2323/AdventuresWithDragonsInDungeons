@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+//test
 namespace ADND
 {
     public class CombatEncounter : IEncounter
