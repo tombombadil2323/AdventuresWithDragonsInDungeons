@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace ADND
 {
     public class BiteWeapon :IWeapon
