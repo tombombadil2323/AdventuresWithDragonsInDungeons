@@ -11,6 +11,7 @@
 //todo add random bouty
 //todo add trading map tiles
 //todo add unit tests for all functions
+//todo understand how to push to different branches in github
 
 using System;
 using System.Collections.Generic;

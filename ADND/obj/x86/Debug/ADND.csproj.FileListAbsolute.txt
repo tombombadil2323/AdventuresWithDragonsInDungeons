@@ -6,3 +6,11 @@
 /Users/tom/Projects/ADND/ADND/bin/Debug/nunit.framework.dll
 /Users/tom/Projects/ADND/ADND/bin/Debug/nunit.framework.xml
 /Users/tom/Projects/ADND/ADND/obj/x86/Debug/ADND.csprojResolveAssemblyReference.cache
+/Users/tom/Projects/ADNDGit/ADND/bin/Debug/ADND.exe
+/Users/tom/Projects/ADNDGit/ADND/bin/Debug/ADND.pdb
+/Users/tom/Projects/ADNDGit/ADND/bin/Debug/nunit.framework.dll
+/Users/tom/Projects/ADNDGit/ADND/bin/Debug/nunit.framework.xml
+/Users/tom/Projects/ADNDGit/ADND/obj/x86/Debug/ADND.csprojResolveAssemblyReference.cache
+/Users/tom/Projects/ADNDGit/ADND/obj/x86/Debug/ADND.csproj.CoreCompileInputs.cache
+/Users/tom/Projects/ADNDGit/ADND/obj/x86/Debug/ADND.exe
+/Users/tom/Projects/ADNDGit/ADND/obj/x86/Debug/ADND.pdb
