@@ -11,7 +11,9 @@ namespace ADND.test
 		public void ShouldReturnTileSetToInitialTile()
 		{
             ICharacters mockCharacter = new MockCharacter();
-            IMapNavigator mapNavigator = new MapNavigator(mockCharacter);
+            IList<ICharacters> mockParty = new List<ICharacters>();
+            mockParty.Add(mockCharacter);
+            IMapNavigator mapNavigator = new MapNavigator();
             IList<IMapTile> initialList = mapNavigator.GetMapTileCollection();
 
             Assert.AreEqual(1,initialList.Count);
@@ -81,40 +83,6 @@ namespace ADND.test
 		//	Assert.AreEqual(mapTileList[0].positionY, mapTileList[1].positionY);
 		//	Assert.AreEqual(mapTileList[0].positionZ, mapTileList[1].positionZ);
 		//}
-
-		public class MockMapTile : IMapTile
-		{
-			public int positionX { get; set; }
-			public int positionY { get; set; }
-			public int positionZ { get; set; }
-			public string description { get; set; }
-			public bool IsCurrent { get; set; }
-            public bool IsLast { get; set; }
-			public enum State { visited, current }
-			public IList<IEncounterType> encounterType { get; set; }
-			Random r = new Random();
-			public ICharacters player;
-            public bool HadEncounter { get; set; }
-
-			public MockMapTile(ICharacters character)
-			{
-				positionX = 0;
-				positionY = 0;
-				positionZ = 0;
-				IsCurrent = false;
-				player = character;
-
-				//TODO: initialise encounterType List
-			}
-			public void GenerateEncounterType()
-			{
-				IEncounterType encounter = new MapTileEncounter(player);
-			}
-			public void ExecuteEncounterType()
-			{
-				IEncounterType encounter = new MapTileEncounter(player);
-			}
-		}
 
     }
 }

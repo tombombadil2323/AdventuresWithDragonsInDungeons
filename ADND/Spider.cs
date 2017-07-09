@@ -27,8 +27,8 @@ namespace ADND
 			toHitAC0 = 20 - level;
 
 			randomDice = RandomSingleton.Instance();
-			xp = randomDice.Next(25, 100);
-			gold = randomDice.Next(5, 20);
+			xp = randomDice.Next(5, 15);
+			gold = 0;
 
 			CharacterBuilder monsterBuilder = new CharacterBuilder();
 			monsterBuilder.GenerateStats(this);

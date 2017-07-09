@@ -6,19 +6,19 @@ namespace ADND
     public class GoUp : IMapMovement
     {
         private IMapNavigator mapNavigator;
-        private ICharacters player;
-        private bool needsToBeAdded;
+		private IList<ICharacters> playerCharacterList;
+		private bool needsToBeAdded;
         private IList<IMapTile> mapTileList;
         private IMapTile newDummyMapTile;
         private IMapTile oldMapTile;
 
-        public GoUp(IMapNavigator gameMap, ICharacters character)
+        public GoUp(IMapNavigator gameMap, IList<ICharacters> partyList)
         {
-            player = character;
-            mapNavigator = gameMap;
+			playerCharacterList = partyList;
+			mapNavigator = gameMap;
             mapTileList = mapNavigator.GetMapTileCollection();
-            newDummyMapTile = new MapTile(player);
-            oldMapTile = new MapTile(player);
+            newDummyMapTile = new MapTile(playerCharacterList);
+            oldMapTile = new MapTile(playerCharacterList);
         }
 
         public void Move()

@@ -10,11 +10,16 @@ namespace ADND
         public int goldWon { get; set; }
         public int xpGained { get; set; }
 		public string encounterType { get; set; }
-        private ICharacters player;
+        private IList<ICharacters>  playerCharacterList;
+		private IEncounter encounter;
+        private IList<ICharacters> encounterCharacterList;
+		private RandomSingleton randomGenerator = RandomSingleton.Instance();
+		private IMonsterGenerator monsterGenerator;
+		private ICharacters monster;
 
-        public MapTileEncounter(ICharacters character)
+        public MapTileEncounter(IList<ICharacters> partyList)
         {
-            player = character;
+            playerCharacterList = partyList;
         }
 
 		public void GenerateEncounter()
@@ -25,23 +30,23 @@ namespace ADND
 		public void ExecuteEncounter(IMapTile mapTile)
         {
             //currently hard coded to combat - todo: link to GenerateEncounter()
-            IEncounter encounter = new CombatEncounter();
-            IList<ICharacters> characterList = new List<ICharacters>();
-            IMonsterGenerator monsterGenerator = new MonsterGenerator();
-            RandomSingleton randomGenerator = RandomSingleton.Instance();
-            ICharacters monster;
+            encounter = new CombatEncounter();
+            encounterCharacterList = new List<ICharacters>();
 
-            characterList.Add(player);
+            foreach(ICharacters playerCharacters in playerCharacterList)
+            {
+				encounterCharacterList.Add(playerCharacters);
+            }
 
-            //only works for dungeons with negative levels down
+            monsterGenerator = new MonsterGenerator();
      		int maxMonsters = randomGenerator.Next(1,((int)Math.Abs(mapTile.positionZ))+3);
 
-		for (int i = 0; i < maxMonsters; i++)
-            {
-				monster = monsterGenerator.GenerateMonsterType();
-				characterList.Add(monster);
-            }
-            encounter.EncounterFlow(characterList);
-        }
+			for (int i = 0; i < maxMonsters; i++)
+	            {
+					monster = monsterGenerator.GenerateMonsterType();
+					encounterCharacterList.Add(monster);
+	            }
+	            encounter.EncounterFlow(encounterCharacterList);
+	        }
     }
 }

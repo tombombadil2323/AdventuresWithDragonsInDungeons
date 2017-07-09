@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-//test
+
 namespace ADND
 {
     public class CombatEncounter : IEncounter
@@ -88,17 +88,44 @@ namespace ADND
             }
         }
 
-        private void InitiateFirstRound()
-        {
-            roundCounter = 0;
-            {
-                message.MessagePush(string.Format("You have been ambushed by {0} monster(s):",monsterList.Count()));
-                foreach(ICharacters monsterName in monsterList)
-                {
-                    message.MessagePush(string.Format("{0}", monsterName.characterClassName));
-                }
-            }
-        }
+		private void InitiateFirstRound()
+		{
+			roundCounter = 0;
+			{
+				message.MessagePush(string.Format("You have been ambushed by {0} monster(s):", monsterList.Count()));
+				foreach (ICharacters monsterName in monsterList)
+				{
+					message.MessagePush(string.Format("{0}", monsterName.characterClassName));
+				}
+			}
+		}
+
+		public void ExecuteRound()
+		{
+			if (!endOfCombat || !hasRunAway)
+			{
+				roundCounter = roundCounter + 1;
+				message.MessagePush("Round " + roundCounter + ":");
+
+			    CycleThroughCharactersForCurrentRoundActions();
+
+				CreateSortedInitiativeListFromSortedCharacterDirectory();
+
+				message.MessagePush(string.Format("{0} has the initiative and strikes first!", sortedInitiativeICharacterList[0].name));
+
+				foreach (ICharacters characters in sortedCharacterDictionary.Values)
+				{
+					if (!characters.isDead && !endOfCombat)
+					{
+						characters.currentAction.TriggerAction();
+						CheckIfAnyCharactersAreDead();
+					}
+					CheckIfCombatHasEnded();
+				}
+				CheckIfAnyCharactersAreDead();
+				CleanUpListsAtEndOfRound();
+			}
+		}
 
         private void CycleThroughCharactersForCurrentRoundActions()
         {
@@ -157,17 +184,45 @@ namespace ADND
                 message.MessagePush(string.Format("[{0}] {1}", value, optionName));
             }
 
-            int.TryParse(message.MessagePull(), out choice);
-            string actionName = Enum.GetName(typeof(FighterOptions),choice);
-            if (actionName=="Attack")
-            {
-               AttackActionOption(actionTaker);
-            }
-            if (actionName=="Run")
-            {
-                RunActionOption(actionTaker);
+			int.TryParse(message.MessagePull(), out choice);
+			string actionName = Enum.GetName(typeof(FighterOptions), choice);
+			if (actionName == "Attack")
+			{
+				AttackActionOption(actionTaker);
+			}
+			if (actionName == "Run")
+			{
+				RunActionOption(actionTaker);
 			}
         }
+		private void AskForWizardActions(ICharacters actionTaker)
+		{
+			int choice;
+			message.MessagePush(string.Format("What action does the {0} {1} want to take?", actionTaker.characterClassName, actionTaker.name));
+			foreach (int value in Enum.GetValues(typeof(WizardOptions)))
+			{
+				string optionName = Enum.GetName(typeof(WizardOptions), value);
+				message.MessagePush(string.Format("[{0}] {1}", value, optionName));
+			}
+
+			int.TryParse(message.MessagePull(), out choice);
+			string actionName = Enum.GetName(typeof(WizardOptions), choice);
+
+			if (actionName == "Attack")
+			{
+				AttackActionOption(actionTaker);
+			}
+
+			if (actionName == "Spellcasting")
+			{
+				SpellCastingActionOption(actionTaker);
+			}
+
+			if (actionName == "Run")
+			{
+				RunActionOption(actionTaker);
+			}
+		}
 
         //refactor with other ActionOptions
         private void AttackActionOption(ICharacters actionTaker)
@@ -178,6 +233,7 @@ namespace ADND
 				message.MessagePush(string.Format("[{0}] {1}", monsterList.IndexOf(monsterCharacter), monsterCharacter.name));
 			}
 
+            //try catch inputs out of range of monsterlist.count
 			int.TryParse(message.MessagePull(), out int monsterChoiceID);
 			ICharacters actionReceiver = monsterList[monsterChoiceID];
 			actionTaker.currentAction = new CombatAttackAction(actionTaker, actionReceiver, this);
@@ -212,64 +268,6 @@ namespace ADND
 			actionTaker.currentAction = new CombatRunAction(actionTaker, monsterList[0], this);
         }
 
-        private void AskForWizardActions(ICharacters actionTaker)
-		{
-			int choice;
-			message.MessagePush(string.Format("What action does the {0} {1} want to take?", actionTaker.characterClassName, actionTaker.name));
-            foreach (int value in Enum.GetValues(typeof(WizardOptions)))
-            {
-                string optionName = Enum.GetName(typeof(WizardOptions), value);
-                message.MessagePush(string.Format("[{0}] {1}", value, optionName));
-            }
-
-			int.TryParse(message.MessagePull(), out choice);
-			string actionName = Enum.GetName(typeof(WizardOptions), choice);
-
-			if (actionName == "Attack")
-			{
-                AttackActionOption(actionTaker);
-			}
-
-			if (actionName == "Spellcasting")
-			{
-               SpellCastingActionOption(actionTaker);
-			}
-
-			if (actionName == "Run")
-			{
-			    RunActionOption(actionTaker);	
-            }
-		}
-
-        public void ExecuteRound()
-		{
-            if (!endOfCombat ||!hasRunAway)
-            {
-				roundCounter = roundCounter + 1;
-				message.MessagePush("Round " + roundCounter + ":");
-
-				foreach (ICharacters players in playerList)
-				{
-					CycleThroughCharactersForCurrentRoundActions();
-				}
-
-				CreateSortedInitiativeListFromSortedCharacterDirectory();
-
-				message.MessagePush(string.Format("{0} has the initiative and strikes first!", sortedInitiativeICharacterList[0].name));
-
-				foreach (ICharacters characters in sortedCharacterDictionary.Values)
-				{
-					if (!characters.isDead && !endOfCombat)
-					{
-						characters.currentAction.TriggerAction();
-						CheckIfAnyCharactersAreDead();
-					}
-                    CheckIfCombatHasEnded();
-				}
-                CheckIfAnyCharactersAreDead();
-				CleanUpListsAtEndOfRound();
-            }
-		}
         private void CheckIfAnyCharactersAreDead()
         {
             foreach(KeyValuePair<int,ICharacters> kvp in sortedCharacterDictionary)
@@ -283,25 +281,28 @@ namespace ADND
 
         private void CheckIfCombatHasEnded()
         {
-            foreach(ICharacters characters in sortedCharacterDictionary.Values)
+            foreach(ICharacters character in sortedCharacterDictionary.Values)
             {
-                if (characterChecker.CheckIfCharacterIsDead(characters))
+                if (characterChecker.CheckIfCharacterIsDead(character))
                 {
-                    if (characters.characterTypeName == "Player")
+                    if (character.characterTypeName == "Player")
                     {
-                        message.MessagePush(string.Format("You are dead!"));
-                        Game game = new Game();
+                        message.MessagePush(string.Format("{0} is dead!", character));
+                        if (playerList.Count()==0)
+                        {
+							Game game = new Game();    
+                        }
                     }
 
-					if (characters.characterTypeName == "Monster")
+					if (character.characterTypeName == "Monster")
 					{
 						foreach (ICharacters playerCharacter in playerList)
 						{
-							playerCharacter.gold += characters.gold;
-                            partyGold += characters.gold;
+							playerCharacter.gold += character.gold;
+                            partyGold += character.gold;
 
-							playerCharacter.xp += characters.xp;
-                            partyXp += characters.xp;
+							playerCharacter.xp += character.xp;
+                            partyXp += character.xp;
 						}
                     }
                 }
@@ -369,10 +370,10 @@ namespace ADND
 
         public void ExecuteSpellAttack (Wizard attacker, ICharacters defender, ISpells spell)
         {
-            int damage= spell.CastSpell(attacker);
+            int damage = spell.CastSpell(attacker);
             defender.hitpoints -= damage;
             message.MessagePush(string.Format("{3}'s {0} has done {1} points of damage to {2}.", spell.name,damage,defender.name, attacker.name));
-
+            Console.ReadLine();
         }
 
         public void ApplyDamage(ICharacters attacker, ICharacters damageTaker)
@@ -384,7 +385,8 @@ namespace ADND
 			damageTaker.hitpoints -= finalDamage;
 
             message.MessagePush(string.Format("{0} did {1} damage to {2}.", attacker.name, finalDamage, damageTaker.name));
-		}
+		    Console.ReadLine();
+        }
 
         private void CleanUpListsAtEndOfRound()
         {
@@ -411,9 +413,13 @@ namespace ADND
 
 			if (monsterList.Count() == 0)
 			{
+				message.MessagePush(string.Format("All monsters are dead and you have won!"));
+                message.MessagePush(string.Format("Your party has gained {0} experience and found {1} gold",partyXp, partyGold));
+
+
 				foreach (ICharacters playerCharacter in playerList)
 				{
-					message.MessagePush(string.Format("All monsters are dead and you have won, found {0} gold and gained {1} experience and have {2} hitpoints of {3} left\n", partyGold, partyXp, playerCharacter.hitpoints, playerCharacter.maxHitpoints));
+                    message.MessagePush(string.Format("{0} has {1} hitpoints of {2} left\n",playerCharacter.name, playerCharacter.hitpoints, playerCharacter.maxHitpoints));
 				}
 				endOfCombat = true;
 			}

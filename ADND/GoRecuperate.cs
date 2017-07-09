@@ -6,19 +6,21 @@ namespace ADND
     public class GoRecuperate : IMapMovement
     {
         private IMapNavigator mapNavigator;
-        private ICharacters player;
+		private IList<ICharacters> playerCharacterList;
         //private bool needsToBeAdded; //todo is this needed? check during next refactoring...
         private IList<IMapTile> mapTileList;
         private IMapTile newDummyMapTile;
         private IMapTile oldMapTile;
+		private IMessageChannel message = new MessageConsole();
+        private RandomSingleton randomDice = RandomSingleton.Instance();
 
-        public GoRecuperate(IMapNavigator gameMap, ICharacters character)
+        public GoRecuperate(IMapNavigator gameMap,IList<ICharacters> partyList)
         {
-            player = character;
+            playerCharacterList = partyList;
             mapNavigator = gameMap;
             mapTileList = mapNavigator.GetMapTileCollection();
-            newDummyMapTile = new MapTile(player);
-            oldMapTile = new MapTile(player);
+            newDummyMapTile = new MapTile(playerCharacterList);
+            oldMapTile = new MapTile(playerCharacterList);
             //needsToBeAdded = false;
         }
 
@@ -28,21 +30,20 @@ namespace ADND
         }
         private void RecuperateHitpoints()
         {
-            IMessageChannel message = new MessageConsole();
-            Random randomDice = new Random();
             int recuperate = randomDice.Next(1, 10);
 
-            if ((player.hitpoints + recuperate) > player.maxHitpoints)
+            foreach(ICharacters player in playerCharacterList)
             {
-                player.hitpoints = player.maxHitpoints;
-            }
-            else
-            {
-                player.hitpoints += recuperate;
-            }
-
-            message.MessagePush(string.Format("You have {0} hitpoints of {1} after resting.", player.hitpoints, player.maxHitpoints));
-
+				if ((player.hitpoints + recuperate) > player.maxHitpoints)
+				{
+					player.hitpoints = player.maxHitpoints;
+				}
+				else
+				{
+					player.hitpoints += recuperate;
+				}
+                message.MessagePush(string.Format("{2} has {0} hitpoints of {1} after resting.", player.hitpoints, player.maxHitpoints, player.name));
+			}
         }
     }
 }

@@ -12,6 +12,7 @@ namespace ADND
 		public int hitPointFactor { get; }
 		public string characterClassName { get; }
 		public string characterTypeName { get; }
+
         private RandomSingleton randomDice;
 		
         public Goblin()
@@ -27,8 +28,8 @@ namespace ADND
             toHitAC0 = 20 - level;
 
             randomDice = RandomSingleton.Instance();
-            xp = randomDice.Next(25,150);
-            gold = randomDice.Next(5, 50);
+            xp = randomDice.Next(25,100);
+            gold = randomDice.Next(5, 25);
 
 			CharacterBuilder monsterBuilder = new CharacterBuilder();
 			monsterBuilder.GenerateStats(this);

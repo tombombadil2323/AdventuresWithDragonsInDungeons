@@ -17,6 +17,8 @@ namespace ADND
         public IList<ISpells> spellBook { get; set; }
         public bool wasInterruptedWhileCasting { get; set; }
 
+		private RandomSingleton randomDice;
+
 
 		public Dragon()
 		{
@@ -27,7 +29,7 @@ namespace ADND
 			weapon = new Sword();
 			armor = new ChainMail();
 			hitPointFactor = 11;
-            baseArmorClass = 10;
+            baseArmorClass = 5;
 			toHitAC0 = 20 - level/2;
 
 			ISpells spell = new MagicMissile();
@@ -35,9 +37,12 @@ namespace ADND
 			spellBook.Add(spell);
 			wasInterruptedWhileCasting = false;
 
-            isDead = false;
+			randomDice = RandomSingleton.Instance();
+			xp = randomDice.Next(500, 1500);
+			gold = randomDice.Next(5100, 5000);
 
-            CharacterBuilder monsterBuilder = new CharacterBuilder();
+
+			CharacterBuilder monsterBuilder = new CharacterBuilder();
 			monsterBuilder.GenerateStats(this);
 		}
 

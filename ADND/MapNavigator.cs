@@ -7,15 +7,11 @@ namespace ADND
     {
         private IList<IMapTile> mapTileList;
         private IMapTile firstTile;
-        private IMapTile newMapTile;
-        private ICharacters player;
 
-        public MapNavigator(ICharacters character)
+        public MapNavigator()
         {
             mapTileList = new List<IMapTile>();
-            player = character;
-            newMapTile = new MapTile(player);
-            firstTile = new FirstTile(player);
+            firstTile = new FirstTile();
             mapTileList.Add(firstTile);
         }
 

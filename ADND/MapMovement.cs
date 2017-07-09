@@ -6,7 +6,7 @@ namespace ADND
     public class MapMovement
     {
 		private IMapNavigator gameMapNavigator;
-		private ICharacters player;
+		private IList<ICharacters>  playerCharacterList;
 
 		private IMessageChannel message;
         private IList<string> movementOptions = new List<string> { "North", "East", "South", "West", "Up", "Down" };
@@ -18,9 +18,9 @@ namespace ADND
         {
             message = new MessageConsole();
         }
-		public void AsksNextStep(IMapNavigator gameMap, ICharacters character)
+		public void AsksNextStep(IMapNavigator gameMap, IList<ICharacters> playerParty)
 		{
-			player = character;
+			playerCharacterList = playerParty;
 			gameMapNavigator = gameMap;
 
             DisplayOptions();
@@ -36,38 +36,38 @@ namespace ADND
 			switch (movementOptionID)
 			{
 				case 0:
-					moveDirection = new GoNorth(gameMapNavigator, player);
+					moveDirection = new GoNorth(gameMapNavigator, playerCharacterList);
 					moveDirection.Move();
 
 					break;
 
 				case 1:
-					moveDirection = new GoEast(gameMapNavigator, player);
+					moveDirection = new GoEast(gameMapNavigator, playerCharacterList);
 					moveDirection.Move();
 					break;
 				
 				case 2:
-					moveDirection = new GoSouth(gameMapNavigator, player);
+					moveDirection = new GoSouth(gameMapNavigator, playerCharacterList);
 					moveDirection.Move();
 					break;
 
 				case 3:
-					moveDirection = new GoWest(gameMapNavigator, player);
+					moveDirection = new GoWest(gameMapNavigator, playerCharacterList);
 					moveDirection.Move();
 					break;
 
 				case 4:
-					moveDirection = new GoUp(gameMapNavigator, player);
+					moveDirection = new GoUp(gameMapNavigator, playerCharacterList);
 					moveDirection.Move();
 					break;
 
 				case 5:
-					moveDirection = new GoDown(gameMapNavigator, player);
+					moveDirection = new GoDown(gameMapNavigator, playerCharacterList);
 					moveDirection.Move();
 					break;
 
 				case 6:
-					moveDirection = new GoRecuperate(gameMapNavigator, player);
+					moveDirection = new GoRecuperate(gameMapNavigator, playerCharacterList);
 					moveDirection.Move();
 					break;
 
@@ -78,7 +78,7 @@ namespace ADND
 		{
 			foreach (string moveOption in movementOptions)
 			{
-				message.MessagePush(string.Format("{0}{1}", movementOptions.IndexOf(moveOption), moveOption));
+				message.MessagePush(string.Format("[{0}] {1}", movementOptions.IndexOf(moveOption), moveOption));
 			}
 		}
     }

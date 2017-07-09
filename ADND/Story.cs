@@ -1,22 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace ADND
 {
     public class Story : IStory
     {
         private IMapNavigator gameMapNavigator;
-        private ICharacters player;
+        private IList<ICharacters> playerCharacterList;
         private IMapTile currentMapTile;
         private RandomSingleton randomDice = RandomSingleton.Instance();
         private MapMovement mapMovementManager;
 
-        public Story(IMapNavigator currentGameMapNavigator, ICharacters character)
+        public Story(IMapNavigator currentGameMapNavigator,IList<ICharacters>  partyList)
         {
-            
             gameMapNavigator = currentGameMapNavigator;
-            player = character;
-            currentMapTile = new MapTile(player);
+            playerCharacterList = partyList;
+            currentMapTile = new MapTile(playerCharacterList);
             mapMovementManager = new MapMovement();
-            mapMovementManager.AsksNextStep(currentGameMapNavigator,player);
+            mapMovementManager.AsksNextStep(currentGameMapNavigator,playerCharacterList);
             TriggerEncounter();
 
         }

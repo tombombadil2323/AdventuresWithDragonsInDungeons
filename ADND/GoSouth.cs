@@ -6,19 +6,19 @@ namespace ADND
 	public class GoSouth : IMapMovement
 	{
 		private IMapNavigator mapNavigator;
-		private ICharacters player;
+		private IList<ICharacters> playerCharacterList;
 		private bool needsToBeAdded;
 		private IList<IMapTile> mapTileList;
 		private IMapTile newDummyMapTile;
 		private IMapTile oldMapTile;
 
-		public GoSouth(IMapNavigator gameMap, ICharacters character)
+		public GoSouth(IMapNavigator gameMap, IList<ICharacters> partyList)
 		{
-			player = character;
+			playerCharacterList = partyList;
 			mapNavigator = gameMap;
 			mapTileList = mapNavigator.GetMapTileCollection();
-			newDummyMapTile = new MapTile(player);
-			oldMapTile = new MapTile(player);
+			newDummyMapTile = new MapTile(playerCharacterList);
+			oldMapTile = new MapTile(playerCharacterList);
 		}
 
 		public void Move()
