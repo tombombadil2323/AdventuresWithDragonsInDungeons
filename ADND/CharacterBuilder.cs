@@ -38,7 +38,6 @@ namespace ADND
 			{
                 characterChosen = new Wizard();
 			}
-   
         }
 
         public void DisplayCharacterSheet()
@@ -81,7 +80,6 @@ namespace ADND
 			{
                 GenerateStats();
             }
-					
 		}
 
         //for monsters

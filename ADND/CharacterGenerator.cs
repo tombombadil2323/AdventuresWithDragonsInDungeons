@@ -17,7 +17,6 @@ namespace ADND
             GenerateHitPoints();
 
             return characterToBeGenerated;
-
         }
       
         private void GenerateStats()

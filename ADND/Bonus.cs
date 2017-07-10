@@ -6,11 +6,11 @@ namespace ADND
         private const int strengthBonusMinimum = 13;
         private const int dexterityBonusMinimum = 11;
         private const int constitutionBonusMinimum = 15;
-        private ICharacters characterBonusCheck;
+        private ICharacters characterCheckedForBonus;
 
         public Bonus(ICharacters character)
         {
-            characterBonusCheck = character;
+            characterCheckedForBonus = character;
         }
 
         public void BonusAdjustment()
@@ -22,46 +22,46 @@ namespace ADND
 
         public void CheckStrengthBonus()
         {
-            int adjustment = characterBonusCheck.strength-strengthBonusMinimum;
+            int adjustment = characterCheckedForBonus.strength-strengthBonusMinimum;
             if (adjustment>0)
             {
-                characterBonusCheck.toHitAC0Bonus = adjustment;
-                characterBonusCheck.damageBonus = adjustment; 
+                characterCheckedForBonus.toHitAC0Bonus = adjustment;
+                characterCheckedForBonus.damageBonus = adjustment; 
             }
             else
             {
-                characterBonusCheck.toHitAC0Bonus = 0;
-                characterBonusCheck.damageBonus = 0;
+                characterCheckedForBonus.toHitAC0Bonus = 0;
+                characterCheckedForBonus.damageBonus = 0;
             }
 
         }
 
         public void CheckDexterityBonus()
         {
-            int adjustment = characterBonusCheck.dexterity - dexterityBonusMinimum;
+            int adjustment = characterCheckedForBonus.dexterity - dexterityBonusMinimum;
 			if (adjustment>0)
 			{
-                characterBonusCheck.initiativeBonus += adjustment;
-                characterBonusCheck.baseArmorClass -= adjustment;
+                characterCheckedForBonus.initiativeBonus += adjustment;
+                characterCheckedForBonus.baseArmorClass -= adjustment;
 			}
             else
             {
-                characterBonusCheck.initiativeBonus = 0;
+                characterCheckedForBonus.initiativeBonus = 0;
             }
         }
 
         public void CheckConstitutionBonus ()
         {
-            int adjustment = characterBonusCheck.constitution - constitutionBonusMinimum;
+            int adjustment = characterCheckedForBonus.constitution - constitutionBonusMinimum;
 
 			if (adjustment>0)
 			{
-				characterBonusCheck.hitPointBonus += adjustment;
-                characterBonusCheck.maxHitpoints += characterBonusCheck.hitPointBonus;
+				characterCheckedForBonus.hitPointBonus += adjustment;
+                characterCheckedForBonus.maxHitpoints += characterCheckedForBonus.hitPointBonus;
 			}
             else
             {
-                characterBonusCheck.hitPointBonus = 0;
+                characterCheckedForBonus.hitPointBonus = 0;
             }
 
         }

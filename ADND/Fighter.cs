@@ -24,7 +24,7 @@ namespace ADND
             armor = new ChainMail();
             level = 5;
 
-            toHitAC0 = 0;
+            toHitAC0 = 20;
             toHitAC0 -= level - 1;
         }
     }
