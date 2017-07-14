@@ -62,23 +62,7 @@ namespace ADND
         {
             combatantList = characterList;
 
-            foreach (ICharacters characters in combatantList)
-            {
-                if (characters.characterTypeName == "Monster")
-                {
-                    monsterList.Add(characters);
-
-                }
-                if (characters.characterTypeName == "Player")
-                {
-                    playerList.Add(characters);
-                }
-            }
-
-            for (int i = 0; i < combatantList.Count; i++)
-            {
-                sortedCharacterDictionary.Add(-i, combatantList[i]);
-            }
+            FillCharacterCollections();
 
             InitiateFirstRound();
 
@@ -86,6 +70,31 @@ namespace ADND
             {
                 ExecuteRound();
             }
+        }
+
+        private void FillCharacterCollections()
+        {
+			foreach (ICharacters characters in combatantList)
+			{
+				if (characters.characterTypeName == "Monster")
+				{
+					monsterList.Add(characters);
+
+				}
+				if (characters.characterTypeName == "Player")
+				{
+                    //todo not needed if dead characters are discarded between encounters
+                    if(characters.isDead!=true)
+                    {
+                       playerList.Add(characters); 
+                    }
+				}
+			}
+
+			for (int i = 0; i < combatantList.Count; i++)
+			{
+				sortedCharacterDictionary.Add(-i, combatantList[i]);
+			}
         }
 
 		private void InitiateFirstRound()
@@ -115,14 +124,13 @@ namespace ADND
 
 				foreach (ICharacters characters in sortedCharacterDictionary.Values)
 				{
-					if (!characters.isDead && !endOfCombat)
+                    if (!characters.isDead && !endOfCombat)
 					{
 						characters.currentAction.TriggerAction();
-						CheckIfAnyCharactersAreDead();
+						SetIsDeadFlagForDeadCharacters();
 					}
-					CheckIfCombatHasEnded();
+					CheckIfAnyCharactersAreDead();
 				}
-				CheckIfAnyCharactersAreDead();
 				CleanUpListsAtEndOfRound();
 			}
 		}
@@ -137,8 +145,6 @@ namespace ADND
 			{
                 CheckCharacterTypeTakingAction(monsterCharacter);
 			}
-
-
         }
 
         private void CheckCharacterTypeTakingAction(ICharacters actionTaker)
@@ -166,11 +172,15 @@ namespace ADND
             }
         }
 
+        //todo bug: index out of range exception at end of combat if all players dead
         private void DetermineMonsterActions(ICharacters actionTaker)
         {
-                int playerID= randomDice.Next(0,playerList.Count());
+            if(playerList.Count()>0)
+            {
+				int playerID = randomDice.Next(0, playerList.Count());
 				ICharacters actionReceiver = playerList[playerID];
 				actionTaker.currentAction = new CombatAttackAction(actionTaker, actionReceiver, this);
+            }
         }
 
         private void AskForFighterActions(ICharacters actionTaker)
@@ -268,7 +278,7 @@ namespace ADND
 			actionTaker.currentAction = new CombatRunAction(actionTaker, monsterList[0], this);
         }
 
-        private void CheckIfAnyCharactersAreDead()
+        private void SetIsDeadFlagForDeadCharacters()
         {
             foreach(KeyValuePair<int,ICharacters> kvp in sortedCharacterDictionary)
             {
@@ -279,23 +289,25 @@ namespace ADND
             }
         }
 
-        private void CheckIfCombatHasEnded()
+        private void CheckIfAnyCharactersAreDead()
         {
             foreach(ICharacters character in sortedCharacterDictionary.Values)
             {
-                if (characterChecker.CheckIfCharacterIsDead(character))
+                //if (characterChecker.CheckIfCharacterIsDead(character))
+                //todo delete characterchecker class
+                //todo add deadPlayerCharacterList and delete from playerList
+                if (character.isDead==true)
                 {
                     if (character.characterTypeName == "Player")
                     {
-                        message.MessagePush(string.Format("{0} is dead!", character));
-                        if (playerList.Count()==0)
-                        {
-							Game game = new Game();    
-                        }
+                        //todo display this message only once for each player and at the end of the combat
+                        message.MessagePush(string.Format("{0} is dead!", character.name));
                     }
 
 					if (character.characterTypeName == "Monster")
 					{
+						message.MessagePush(string.Format("You killed {0}!", character.name));
+
 						foreach (ICharacters playerCharacter in playerList)
 						{
 							playerCharacter.gold += character.gold;
@@ -395,7 +407,7 @@ namespace ADND
             playerList.Clear();
             foreach(ICharacters characters in sortedCharacterDictionary.Values)
             {
-                if (!characters.isDead)
+                if (characters.isDead!=true)
                 {
                     combatantList.Add(characters);
 
@@ -409,6 +421,7 @@ namespace ADND
 					}
                 }
             }
+
             sortedInitiativeICharacterList.Clear();
 
 			if (monsterList.Count() == 0)
@@ -423,6 +436,11 @@ namespace ADND
 				}
 				endOfCombat = true;
 			}
+            if(playerList.Count()==0)
+            {
+                message.MessagePush(string.Format("All party members have been killed by monsters! Better luck next time.."));
+                endOfCombat = true;
+            }
             else
             {
 				message.MessagePush(string.Format("After round {0} the following party members are still alive and have the following hitpoints:", roundCounter));
@@ -447,7 +465,7 @@ namespace ADND
 
             hasRunAway = true;
 
-            CheckIfAnyCharactersAreDead();
+            SetIsDeadFlagForDeadCharacters();
 		}
 	}
 }
