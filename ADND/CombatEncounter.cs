@@ -6,7 +6,6 @@ namespace ADND
 {
     public class CombatEncounter : IEncounter
     {
-
         private int xp;
         private int partyGold;
         private int partyXp;
