@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ADND
 {
-    public class MapTileEncounter : IEncounterType
+    public class CombatMapTileEncounter : IEncounterType
     {
         public string encounterStartDescription { get; set; }
         public string encounterEndingDescription { get; set; }
@@ -17,7 +17,7 @@ namespace ADND
 		private IMonsterGenerator monsterGenerator;
 		private ICharacters monster;
 
-        public MapTileEncounter(IList<ICharacters> partyList)
+        public CombatMapTileEncounter(IList<ICharacters> partyList)
         {
             playerCharacterList = partyList;
         }

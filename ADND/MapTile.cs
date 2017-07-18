@@ -32,13 +32,13 @@ namespace ADND
         public void GenerateEncounterType()
         {
             //select encounter type, e.g. maptile
-            selectedEncounterType = new MapTileEncounter(playerCharacterList);
+            selectedEncounterType = new CombatMapTileEncounter(playerCharacterList);
             selectedEncounterType.GenerateEncounter();
         }
 
 		public void ExecuteEncounterType()
 		{
-			//select encounter type, e.g. maptile
+			//select encounter type, e.g. CombatEncounter
 
 			selectedEncounterType.ExecuteEncounter(this);
             HadEncounter = true;

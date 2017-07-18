@@ -70,7 +70,7 @@
     <Compile Include="MapTile.cs" />
     <Compile Include="IMapTile.cs" />
     <Compile Include="IEncounterType.cs" />
-    <Compile Include="MapTileEncounter.cs" />
+    <Compile Include="CombatMapTileEncounter.cs" />
     <Compile Include="CombatEncounter.cs" />
     <Compile Include="Goblin.cs" />
     <Compile Include="LeatherArmor.cs" />
@@ -106,6 +106,8 @@
     <Compile Include="GoUp.cs" />
     <Compile Include="GoDown.cs" />
     <Compile Include="OptionYesNo.cs" />
+    <Compile Include="CombatRound.cs" />
+    <Compile Include="CombatRoundActions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
